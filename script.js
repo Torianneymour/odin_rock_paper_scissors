@@ -1,21 +1,27 @@
 function playRound(playerSelection, computerSelection) {
     
     if (playerSelection == "paper" && computerSelection == "rock"){
+        playerScore++
         return "You win! " + playerSelection + " beats " + computerSelection + "..";
     }
     else if (playerSelection == "rock" && computerSelection == "scissors"){
+        playerScore++
         return "You win! " + playerSelection + " beats " + computerSelection + "..";
     }
     else if (playerSelection == "scissors" && computerSelection == "paper"){
+        playerScore++
         return "You win! " + playerSelection + " beats " + computerSelection + "..";
     }
     else if (playerSelection == "paper" && computerSelection == "scissors"){
+        computerScore++
         return "You lose! " + playerSelection + " is beaten by " + computerSelection + "..";
     }
     else if (playerSelection == "rock" && computerSelection == "paper"){
+        computerScore++
         return "You lose! " + playerSelection + " is beaten by " + computerSelection + "..";
     }
     else if (playerSelection == "scissors" && computerSelection == "rock"){
+        computerScore++
         return "You lose! " + playerSelection + " is beaten by " + computerSelection + "..";
     }
     else if (playerSelection == computerSelection){
@@ -34,26 +40,42 @@ function computerPlay() {
 
 }
 
+let clickedSelection = "";
+const selectRock = document.getElementById("rock");
+selectRock.addEventListener("click", () => {clickedSelection = "rock"
+return game()});
+const selectPaper = document.getElementById("paper");
+selectPaper.addEventListener("click", () => {clickedSelection = "paper"
+return game()});
+const selectScissors = document.getElementById("scissors");
+selectScissors.addEventListener("click", () => {clickedSelection = "scissors"
+return game()});
+
+displayedPlayerScore = document.getElementById("playerscore");
+displayedComputerScore = document.getElementById("computerscore");
+
+let playerScore = 0;
+let computerScore = 0;
+
 function game(){
+ 
+    let computerSelection = computerPlay();
+    console.log("You choose " + clickedSelection)
+    console.log("Computer choose " + computerSelection)
+    playRound(clickedSelection, computerSelection);
 
+    displayedPlayerScore.innerHTML = playerScore.toString();
+    displayedComputerScore.innerHTML = computerScore.toString();
 
-
-    if (roundCount >= 5){
-
-        return
-    } 
-
-    else if (roundCount < 5){
-        let playerSelection = prompt("Rock, paper or scissors?  Press f12 to see results in console.");
-        let computerSelection = computerPlay();
-        console.log("You choose " + playerSelection)
-        console.log("Computer choose " + computerSelection)
-        console.log(playRound(playerSelection.toLowerCase(), computerSelection));
-        roundCount ++;
-        return game();
+    if  (playerScore >= 5){
+        document.getElementById("winstatus").innerHTML = "PLAYER WINS"
+        playerScore = 0
+        computerScore = 0
     }
-
+    else if (computerScore >= 5){
+        document.getElementById("winstatus").innerHTML = "CPU WINS"
+        playerScore = 0
+        computerScore = 0
+    }
+    return;
 }
-
-let roundCount = 0;
-game();
